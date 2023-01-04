@@ -32,3 +32,19 @@ DATABASES = {
         'PORT': os.getenv('CVAT_POSTGRES_PORT', 5432),
     }
 }
+
+# Caches
+# https://docs.djangoproject.com/en/2.0/ref/settings/#caches
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://{}:6379/2".format(os.getenv('CVAT_REDIS_HOST', 'cvat_redis')),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+CACHE_ROOT = '/tmp/cache'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
